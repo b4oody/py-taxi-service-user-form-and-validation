@@ -13,15 +13,24 @@ class DriverCreationForm(UserCreationForm):
         license_number = self.cleaned_data.get("license_number")
 
         if Driver.objects.filter(license_number=license_number).exists():
-            raise forms.ValidationError("This license number is already taken.")
+            raise forms.ValidationError(
+                "This license number is already taken."
+            )
 
         if len(license_number) != 8:
-            raise forms.ValidationError("License number must be exactly 8 characters long.")
+            raise forms.ValidationError(
+                "License number must be exactly 8 characters long."
+            )
 
-        if not license_number[:3].isalpha() or not license_number[:3].isupper():
-            raise forms.ValidationError("The first three characters must be uppercase letters.")
+        if (not license_number[:3].isalpha()
+                or not license_number[:3].isupper()):
+            raise forms.ValidationError(
+                "The first three characters must be uppercase letters."
+            )
 
         if not license_number[3:].isdigit():
-            raise forms.ValidationError("The last five characters must be digits.")
+            raise forms.ValidationError(
+                "The last five characters must be digits."
+            )
 
         return license_number
